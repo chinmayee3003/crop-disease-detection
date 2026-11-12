@@ -1,0 +1,30 @@
+# Node dependencies
+node_modules/
+
+# Python virtual environment
+venv/
+__pycache__/
+*.pyc
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Build files
+build/
+dist/
+
+# Logs and Mac files
+*.log
+.DS_Store
+# Generated image uploads
+backend/uploads/*
+!backend/uploads/samples/
+!backend/uploads/samples/**
+
+# Generated image processing outputs
+backend/processed/
+
+# Runtime detection history
+backend/data/detections.json

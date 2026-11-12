@@ -1,0 +1,23 @@
+{
+  "name": "crop-disease-detection",
+  "version": "1.0.0",
+  "description": "Crop Disease Detection Using Digital Image Processing Technique",
+  "private": true,
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "backend": "cd backend && npm start",
+    "frontend": "cd frontend && npm run dev",
+    "build:frontend": "cd frontend && npm run build"
+  },
+  "keywords": [
+    "crop-disease-detection",
+    "digital-image-processing",
+    "opencv",
+    "react",
+    "nodejs",
+    "agriculture",
+    "plant-pathology"
+  ],
+  "author": "Antigravity AI",
+  "license": "MIT"
+}
