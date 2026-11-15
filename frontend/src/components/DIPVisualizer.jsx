@@ -31,44 +31,44 @@ export default function DIPVisualizer({ stages, visualArtifacts, features }) {
 
   const stageDescriptions = {
     1: {
-      technique: 'Optical Image Acquisition & Format Standardization',
-      math: 'I_{raw}(x, y) \\in \\mathbb{R}^{H \\times W \\times 3}',
-      summary: 'Loads raw uncompressed image, parses color channels, verifies 24-bit RGB bit depth, and reads dimensions and metadata.',
+      technique: 'Image Acquisition & Format Verification',
+      algorithmNote: 'OpenCV cv2.imread(), 24-bit RGB validation, and dimensions check',
+      summary: 'Loads the uploaded image, verifies file format and channels, and reads resolution metadata.',
     },
     2: {
-      technique: 'Bicubic Spatial Downsampling & Aspect Padding',
-      math: 'I_{norm}(x\', y\') = \\sum_{i=0}^3 \\sum_{j=0}^3 a_{ij} x^i y^j',
-      summary: 'Normalizes input to a uniform 512x512 matrix using bicubic interpolation over 4x4 neighboring pixels to ensure consistent scale invariant feature extraction.',
+      technique: 'Standard Spatial Resizing',
+      algorithmNote: 'cv2.resize() with standard bicubic area interpolation (512x512)',
+      summary: 'Normalizes the image to a standard 512x512 matrix so processing is consistent regardless of camera resolution.',
     },
     3: {
-      technique: 'Gaussian Blur vs. Median Non-Linear Filtering',
-      math: 'G(x, y) = \\frac{1}{2\\pi \\sigma^2} e^{-\\frac{x^2+y^2}{2\\sigma^2}}, \\quad M(x, y) = \\text{median}\\{I(x+i, y+j)\\}',
-      summary: 'Compares Gaussian spatial smoothing (sigma=1.2) for sensor Gaussian noise against Median filtering (kernel=5) which removes salt-and-pepper noise while strictly preserving sharp leaf margins.',
+      technique: 'Gaussian and Median Noise Removal',
+      algorithmNote: 'cv2.GaussianBlur(sigma=1.2) and cv2.medianBlur(k=5) edge-preserving filtering',
+      summary: 'Reduces unwanted sensor noise while keeping leaf boundaries and vein outlines crisp.',
     },
     4: {
-      technique: 'CLAHE & Unsharp Masking in CIE-LAB Color Space',
-      math: 'L_{enh} = \\text{CLAHE}(L, \\text{clip}=2.5), \\quad I_{sharp} = I + \\alpha (I - G * I)',
-      summary: 'Converts to CIE-LAB color space and applies Contrast Limited Adaptive Histogram Equalization to the Lightness channel, followed by edge-sharpening to make tiny disease pustules clearly distinguishable.',
+      technique: 'Contrast Enhancement (CLAHE)',
+      algorithmNote: 'CIE-LAB conversion, cv2.createCLAHE(clip=2.5), and edge sharpening',
+      summary: 'Improves lightness contrast so subtle spots and discoloration are easier to distinguish.',
     },
     5: {
-      technique: 'RGB to HSV Cylindrical Coordinate Transformation',
-      math: 'H = \\arctan\\left(\\frac{\\sqrt{3}(G - B)}{2R - G - B}\\right), \\quad S = 1 - \\frac{3\\min(R,G,B)}{R+G+B}, \\quad V = \\max(R,G,B)',
-      summary: 'Separates chromaticity (Hue and Saturation) from illumination (Value). This isolates plant chlorophyll green (H: 35-85) and yellow/brown disease necrosis (H: 10-30) regardless of sunlight exposure variations.',
+      technique: 'RGB to HSV Colour Conversion',
+      algorithmNote: 'cv2.cvtColor(cv2.COLOR_BGR2HSV) to decouple brightness from color hue',
+      summary: 'Converts colours into Hue, Saturation, and Value to separate plant green and disease brown from shadows.',
     },
     6: {
-      technique: 'Excess Green (ExG) Index & Morphological Segmentation',
-      math: '\\text{ExG} = 2G - R - B, \\quad \\text{Mask} = (\\text{ExG} > \\theta) \\cap (\\text{HSV}_{plant}) \\circ B_{ellipse}',
-      summary: 'Segmentates active plant tissue from studio paper or soil backdrops by calculating the Excess Green vegetation index combined with morphological opening and closing to seal interior leaf veins.',
+      technique: 'Plant Tissue Segmentation',
+      algorithmNote: 'Excess Green (ExG) index thresholding and morphological cleanup',
+      summary: 'Separates the plant leaf or root from the background paper or soil.',
     },
     7: {
-      technique: 'Chromatic Delta Lesion Extraction & Intensity Heatmap',
-      math: '\\mathcal{D}(x, y) = \\mathbb{I}_{\\text{Plant}} \\cap [\\mathbb{I}_{\\text{Necrosis}} \\cup \\mathbb{I}_{\\text{Chlorosis}}], \\quad \\mathcal{H} = G_{\\sigma} * \\mathcal{D}',
-      summary: 'Isolates infected necrotic spots and yellow chlorotic halos within the segmented plant area. Applies contour analysis to compute exact lesion count and convolves a Gaussian density kernel to produce continuous severity heatmaps.',
+      technique: 'Disease Region & Lesion Extraction',
+      algorithmNote: 'Chromatic delta masking, cv2.findContours(), and intensity heatmap',
+      summary: 'Locates visible spots and damaged regions, marks boundaries, and creates a density heatmap.',
     },
     8: {
-      technique: 'GLCM Texture Matrices & Statistical Color Moments',
-      math: 'C = \\sum_{i,j} |i - j|^2 P(i, j), \\quad H_o = \\sum_{i,j} \\frac{P(i, j)}{1 + |i - j|^2}, \\quad E = -\\sum P_{ij} \\log_2 P_{ij}',
-      summary: 'Extracts 18 quantitative biometric variables including Gray-Level Co-occurrence Matrix (GLCM) contrast, energy, homogeneity, and entropy, alongside 1st-3rd color moments for empirical classification.',
+      technique: 'Feature Extraction & Classification',
+      algorithmNote: 'GLCM texture descriptors, color moments, and pathology profile matching',
+      summary: 'Extracts quantitative colour, texture, and shape values to compare with existing disease profiles.',
     },
   };
 
@@ -220,8 +220,8 @@ export default function DIPVisualizer({ stages, visualArtifacts, features }) {
                 {currentStageData.description}
               </p>
               <div className="p-2.5 rounded-xl bg-white border border-slate-200 text-[11px] font-mono text-emerald-900 overflow-x-auto">
-                <span className="text-slate-400 mr-2">Formula:</span>
-                <code>{currentDesc.math}</code>
+                <span className="text-slate-400 mr-2">Method:</span>
+                <code>{currentDesc.algorithmNote}</code>
               </div>
             </div>
 
@@ -229,7 +229,7 @@ export default function DIPVisualizer({ stages, visualArtifacts, features }) {
             <div>
               <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3 flex items-center gap-1.5">
                 <BarChart3 className="w-3.5 h-3.5 text-emerald-600" />
-                Computed Optical Metrics
+                Stage Measurements & Parameters
               </h4>
               <div className="divide-y divide-slate-100 rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-xs">
                 {currentStageData.metrics &&
@@ -246,7 +246,7 @@ export default function DIPVisualizer({ stages, visualArtifacts, features }) {
             {activeStage === 8 && features && (
               <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200">
                 <p className="text-xs font-bold text-emerald-900 mb-2">
-                  Full 18-Feature Biometric Vector Summary
+                  Extracted Features Summary
                 </p>
                 <div className="grid grid-cols-2 gap-2 text-[11px]">
                   <div className="bg-white p-2 rounded-lg border border-emerald-100">

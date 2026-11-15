@@ -299,7 +299,7 @@ export default function ImageUploader({
             <div className="bg-emerald-600 h-2 rounded-full animate-pulse w-full" />
           </div>
           <p className="text-[11px] text-emerald-800 mt-2">
-            Running OpenCV spatial filtering, CLAHE contrast equalization, HSV segmentation, lesion extraction, and metric classification.
+            Analyzing the plant photo using OpenCV filtering, contrast enhancement, colour segmentation, and disease profile matching.
           </p>
         </div>
       )}
@@ -308,9 +308,9 @@ export default function ImageUploader({
       <div className="mt-6 pt-6 border-t border-slate-100">
         <div className="flex items-center justify-between mb-3">
           <p className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-            Quick-Try Sample Crops (1-Click Test)
+            Quick Test Samples
           </p>
-          <span className="text-[11px] text-slate-500">Preloaded benchmark crops</span>
+          <span className="text-[11px] text-slate-500">Test immediately with a preloaded sample</span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5">
@@ -356,7 +356,7 @@ export default function ImageUploader({
           }`}
         >
           <Sparkles className="w-4 h-4" />
-          <span>{isProcessing ? 'Analyzing Image...' : 'Analyse Image via DIP Pipeline'}</span>
+          <span>{isProcessing ? 'Analyzing Image...' : 'Analyse Crop Image'}</span>
           <ArrowRight className="w-4 h-4 ml-1" />
         </button>
       </div>

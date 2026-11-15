@@ -1,233 +1,250 @@
 import React from 'react';
 import {
   Sprout,
-  Cpu,
-  Layers,
   ShieldCheck,
   Code2,
-  FileCode,
   Terminal,
   Activity,
   CheckCircle2,
-  BookOpen,
+  FileText,
+  Database,
+  Layers,
+  HelpCircle,
 } from 'lucide-react';
+import Footer from '../components/Footer';
 
 export default function AboutPage() {
   return (
-    <div className="space-y-12 py-8 max-w-5xl mx-auto">
-      {/* Header Banner */}
-      <div className="bg-gradient-to-br from-emerald-950 via-forest-light to-emerald-900 rounded-3xl p-8 sm:p-12 text-white border border-emerald-800 shadow-xl">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase tracking-wider border border-emerald-400/30 mb-4">
-          <Sprout className="w-3.5 h-3.5" />
-          <span>Research & Engineering Documentation</span>
-        </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-          Crop Disease Detection Using Digital Image Processing Technique
-        </h1>
-        <p className="text-xs sm:text-sm text-emerald-100/90 mt-3 max-w-3xl leading-relaxed">
-          An end-to-end full-stack computer vision platform engineered to diagnose plant pathologies via 8-stage spatial transformations, color space conversions, morphological segmentation, and GLCM texture classification.
-        </p>
-      </div>
-
-      {/* Project Objective */}
-      <section className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-4">
-        <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-          <ShieldCheck className="w-5 h-5 text-emerald-600" />
-          <span>Project Objective</span>
-        </h2>
-        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-          Agricultural yields worldwide are severely compromised by plant diseases, with fungal blights, bacterial spots, and root rots causing catastrophic crop loss when detected late. Traditional manual diagnosis requires expert plant pathologists and is prone to subjective human error.
-        </p>
-        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-          This system provides an automated, objective, and reproducible diagnostic framework. By applying genuine Digital Image Processing (DIP) techniques, it extracts quantifiable anatomical markers—such as lesion surface percentage, circularity, color moments, and second-order textural roughness—to distinguish healthy foliage from infected specimens and deliver clinical agronomic recommendations.
-        </p>
-      </section>
-
-      {/* 8-Stage DIP Algorithmic Formulation */}
-      <section className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-6">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-600">
-            Mathematical Principles
-          </span>
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight mt-1">
-            Digital Image Processing Pipeline Architecture
-          </h2>
-          <p className="text-xs text-slate-500 mt-1">
-            Detailed breakdown of the mathematical equations governing the 8 processing stages.
+    <div className="space-y-12 py-8">
+      <div className="max-w-5xl mx-auto space-y-12">
+        {/* Header Banner */}
+        <div className="bg-gradient-to-br from-emerald-950 via-forest-light to-emerald-900 rounded-3xl p-8 sm:p-12 text-white border border-emerald-800 shadow-xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase tracking-wider border border-emerald-400/30 mb-4">
+            <Sprout className="w-3.5 h-3.5" />
+            <span>Academic Project Overview</span>
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+            Crop Disease Detection Using Digital Image Processing Technique
+          </h1>
+          <p className="text-sm sm:text-base text-emerald-100/90 mt-3 max-w-3xl leading-relaxed">
+            A full-stack agricultural assistance web application that helps farmers and agriculture students detect plant diseases from photographs using computer vision, colour segmentation, and feature extraction.
           </p>
         </div>
 
-        <div className="space-y-4 text-xs">
-          {/* Stage 1 & 2 */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
-            <h3 className="font-bold text-slate-900 mb-1">
-              1. Image Acquisition & 2. Standardization
-            </h3>
-            <p className="text-slate-600 mb-2">
-              Optical ingestion of 24-bit RGB arrays verified across 3 channels. Resized to a uniform 512x512 matrix using bicubic interpolation over 4x4 pixel neighborhoods to ensure scale invariance:
+        {/* Problem Statement & Proposed Solution */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="w-9 h-9 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold">
+                <HelpCircle className="w-5 h-5" />
+              </div>
+              <h2 className="text-lg font-bold text-slate-900">The Problem</h2>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Plant diseases can damage crops quickly and reduce farm yields if they are not spotted early. Identifying diseases by eye often requires experienced agricultural officers who may not be immediately available in rural areas. Late identification leads to unnecessary crop loss and excessive pesticide use.
             </p>
-            <div className="font-mono bg-white p-2.5 rounded-xl border border-slate-200 text-slate-800">
-              f(x, y) = Σᵢ₌₀³ Σⱼ₌₀³ aᵢⱼ xⁱ yʲ
+          </div>
+
+          <div className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <h2 className="text-lg font-bold text-slate-900">Our Proposed Solution</h2>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              AgriVision provides an accessible digital image processing tool where users simply upload a picture of a leaf or root. The system removes background noise, enhances image clarity, highlights visible damaged spots, calculates the percentage of affected area, and gives easy-to-read management tips.
+            </p>
+          </div>
+        </section>
+
+        {/* Main Features */}
+        <section className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-5">
+          <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+            <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+            <span>Key Project Features</span>
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm text-slate-700">
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-1.5">
+              <strong className="text-slate-900 block font-bold">Foliage and Root Analysis</strong>
+              <p className="text-slate-600 text-xs leading-relaxed">
+                Supports common crop leaf pictures as well as root photographs to detect underground root rot conditions.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-1.5">
+              <strong className="text-slate-900 block font-bold">8-Stage Image Processing Pipeline</strong>
+              <p className="text-slate-600 text-xs leading-relaxed">
+                Applies real OpenCV operations including Gaussian and Median noise filtering, CLAHE contrast enhancement, HSV segmentation, and lesion extraction.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-1.5">
+              <strong className="text-slate-900 block font-bold">Affected Area Calculation</strong>
+              <p className="text-slate-600 text-xs leading-relaxed">
+                Measures the actual percentage of the plant surface that shows signs of spots or discoloration.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-1.5">
+              <strong className="text-slate-900 block font-bold">Practical Treatment & Prevention Guide</strong>
+              <p className="text-slate-600 text-xs leading-relaxed">
+                Provides simple, understandable agronomic advice including crop rotation, biological solutions, and approved spray recommendations.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-1.5">
+              <strong className="text-slate-900 block font-bold">Comprehensive Disease Encyclopedia</strong>
+              <p className="text-slate-600 text-xs leading-relaxed">
+                Searchable repository of 22+ agricultural diseases across Tomato, Potato, Corn, Apple, Grape, Rice, Bell Pepper, and root crops.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-1.5">
+              <strong className="text-slate-900 block font-bold">Persistent Audit History (DBMS)</strong>
+              <p className="text-slate-600 text-xs leading-relaxed">
+                Stores previous scans with images, timestamps, severity status, and results for comparative tracking and demonstration.
+              </p>
             </div>
           </div>
+        </section>
 
-          {/* Stage 3 */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
-            <h3 className="font-bold text-slate-900 mb-1">
-              3. Noise Removal (Gaussian vs. Median Filtering)
-            </h3>
-            <p className="text-slate-600 mb-2">
-              Gaussian spatial convolution suppresses sensor Gaussian noise with standard deviation σ=1.2:
-            </p>
-            <div className="font-mono bg-white p-2.5 rounded-xl border border-slate-200 text-slate-800 mb-2">
-              G(x, y) = (1 / 2πσ²) · exp(-(x² + y²) / (2σ²))
-            </div>
-            <p className="text-slate-600">
-              In parallel, a non-linear 5x5 Median Filter takes the local rank median to remove salt-and-pepper impulses while strictly preserving sharp leaf contours.
-            </p>
-          </div>
-
-          {/* Stage 4 */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
-            <h3 className="font-bold text-slate-900 mb-1">
-              4. CLAHE Image Enhancement in CIE-LAB Space
-            </h3>
-            <p className="text-slate-600 mb-2">
-              To enhance subtle pustules without saturating colors, the image is mapped into CIE-LAB space. Contrast Limited Adaptive Histogram Equalization (clip limit 2.5, 8x8 contextual tiles) is applied exclusively to the Lightness (L*) channel:
-            </p>
-            <div className="font-mono bg-white p-2.5 rounded-xl border border-slate-200 text-slate-800">
-              L_enhanced = CLAHE(L*, clip=2.5, grid=8x8), followed by unsharp masking: I_sharp = I + 1.25(I - G*I)
-            </div>
-          </div>
-
-          {/* Stage 5 */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
-            <h3 className="font-bold text-slate-900 mb-1">
-              5. RGB to HSV Color Space Transformation
-            </h3>
-            <p className="text-slate-600 mb-2">
-              Cylindrical HSV decomposition decouples illumination (Value) from chromatic spectral purity (Hue and Saturation), making chlorotic yellowing and necrosis invariant to shade:
-            </p>
-            <div className="font-mono bg-white p-2.5 rounded-xl border border-slate-200 text-slate-800">
-              H = arccos(0.5 · ((R - G) + (R - B)) / √((R - G)² + (R - B)(G - B)))
-            </div>
-          </div>
-
-          {/* Stage 6 & 7 */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
-            <h3 className="font-bold text-slate-900 mb-1">
-              6. Excess Green Segmentation & 7. Disease Lesion Extraction
-            </h3>
-            <p className="text-slate-600 mb-2">
-              Plant tissue is isolated using the agronomic Excess Green Index combined with Otsu thresholding:
-            </p>
-            <div className="font-mono bg-white p-2.5 rounded-xl border border-slate-200 text-slate-800 mb-2">
-              ExG = 2 · G - R - B, &nbsp; Mask_plant = (ExG &gt; θ) ∩ (HSV_leaf) ∘ B_ellipse
-            </div>
-            <p className="text-slate-600">
-              Infected lesion pixels are isolated within the plant mask by detecting low-Hue brownish rust (H: 0-25) and yellow chlorosis (H: 22-34). Affected area percentage is mathematically computed:
-            </p>
-            <div className="font-mono bg-white p-2.5 rounded-xl border border-slate-200 text-slate-800">
-              Affected_Area_% = (Total_Lesion_Pixels / Total_Leaf_Pixels) × 100
-            </div>
-          </div>
-
-          {/* Stage 8 */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
-            <h3 className="font-bold text-slate-900 mb-1">
-              8. GLCM Texture & Biometric Classification
-            </h3>
-            <p className="text-slate-600 mb-2">
-              Gray Level Co-occurrence Matrices (GLCM) capture second-order joint probabilities P(i, j) along displacement vectors:
-            </p>
-            <div className="font-mono bg-white p-2.5 rounded-xl border border-slate-200 text-slate-800">
-              Contrast = Σ |i - j|² P(i, j) &nbsp;|&nbsp; Homogeneity = Σ P(i, j) / (1 + |i - j|²) &nbsp;|&nbsp; Entropy = -Σ P(i, j) log₂(P(i, j))
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Technology Stack Matrix */}
-      <section className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-6">
-        <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-          <Code2 className="w-5 h-5 text-emerald-600" />
-          <span>Full-Stack Technology Stack</span>
-        </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-2">
-            <span className="font-bold text-slate-900 text-sm block">Frontend</span>
-            <ul className="space-y-1 text-slate-600">
-              <li>• React.js 18.3 (Single Page App)</li>
-              <li>• Vite 6.0 (Build system & dev server)</li>
-              <li>• Tailwind CSS 3.4 (Modern green theme)</li>
-              <li>• React Router 6.28</li>
-              <li>• Lucide React Icons</li>
-              <li>• Axios for REST communication</li>
-              <li>• Canvas Confetti</li>
-            </ul>
-          </div>
-
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-2">
-            <span className="font-bold text-slate-900 text-sm block">Backend API</span>
-            <ul className="space-y-1 text-slate-600">
-              <li>• Node.js 25.2</li>
-              <li>• Express.js 4.21</li>
-              <li>• Multer (File uploads & validation)</li>
-              <li>• Morgan logger & CORS</li>
-              <li>• JSON / MongoDB persistence engine</li>
-              <li>• Subprocess IPC bridge to Python</li>
-            </ul>
-          </div>
-
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-2">
-            <span className="font-bold text-slate-900 text-sm block">Vision & Machine Learning</span>
-            <ul className="space-y-1 text-slate-600">
-              <li>• Python 3.9 + Isolated venv</li>
-              <li>• OpenCV (cv2) 5.0.0</li>
-              <li>• NumPy 2.0 (Vector linear algebra)</li>
-              <li>• Pillow (PIL) 11.3</li>
-              <li>• Softmax distance probability</li>
-              <li>• 22+ Pathological knowledge profiles</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Execution Commands */}
-      <section className="bg-slate-900 rounded-3xl p-6 sm:p-8 text-slate-200 shadow-xl space-y-4 border border-slate-800">
-        <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider">
-          <Terminal className="w-4 h-4" />
-          <span>macOS Local Execution Instructions</span>
-        </div>
-        <h3 className="text-lg font-bold text-white">How to Run Locally on macOS</h3>
-        <p className="text-xs text-slate-400 leading-relaxed">
-          The application is fully configured to execute inside the <code className="text-emerald-300">Crop-Disease-Detection</code> folder.
-        </p>
-
-        <div className="space-y-3 font-mono text-xs">
+        {/* Full-Stack Technology Stack */}
+        <section className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-6">
           <div>
-            <p className="text-slate-400 text-[11px] mb-1 font-sans">1. Start Backend API Server (Port 5001):</p>
-            <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 text-emerald-400 select-all">
-              cd Crop-Disease-Detection/backend && npm start
-            </div>
+            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <Code2 className="w-5 h-5 text-emerald-600" />
+              <span>Full-Stack Technology Stack</span>
+            </h2>
+            <p className="text-xs text-slate-500 mt-1">
+              Every technology listed here is actively used in the application.
+            </p>
           </div>
 
-          <div>
-            <p className="text-slate-400 text-[11px] mb-1 font-sans">2. Start Frontend Dev Server (Port 3000):</p>
-            <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 text-emerald-400 select-all">
-              cd Crop-Disease-Detection/frontend && npm run dev
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+            {/* Frontend */}
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-2">
+              <span className="font-bold text-slate-900 text-sm block">Frontend</span>
+              <ul className="space-y-1.5 text-slate-600 text-xs">
+                <li><strong className="text-slate-800">React.js:</strong> Builds the responsive single-page user interface and handles view routing.</li>
+                <li><strong className="text-slate-800">JavaScript (ES6+):</strong> Powers client-side state management and asynchronous API calls.</li>
+                <li><strong className="text-slate-800">Tailwind CSS:</strong> Provides clean green-and-white agricultural styling and responsive layouts.</li>
+                <li><strong className="text-slate-800">Axios:</strong> Sends image uploads and requests to the backend server.</li>
+              </ul>
             </div>
-          </div>
 
-          <div>
-            <p className="text-slate-400 text-[11px] mb-1 font-sans">3. Open Browser:</p>
-            <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 text-emerald-400 select-all">
-              http://localhost:3000
+            {/* Backend */}
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-2">
+              <span className="font-bold text-slate-900 text-sm block">Backend API</span>
+              <ul className="space-y-1.5 text-slate-600 text-xs">
+                <li><strong className="text-slate-800">Node.js:</strong> Serves as the cross-platform runtime environment for the server.</li>
+                <li><strong className="text-slate-800">Express.js:</strong> Implements RESTful API endpoints for image analysis, diseases, and stats.</li>
+                <li><strong className="text-slate-800">Multer:</strong> Handles multipart image uploads and file format validation.</li>
+                <li><strong className="text-slate-800">Child Process:</strong> Bridges the Express backend with the Python OpenCV image processing service.</li>
+              </ul>
+            </div>
+
+            {/* Image Processing */}
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-2">
+              <span className="font-bold text-slate-900 text-sm block">Image Processing</span>
+              <ul className="space-y-1.5 text-slate-600 text-xs">
+                <li><strong className="text-slate-800">Python 3:</strong> Executes the digital image processing and feature calculation scripts.</li>
+                <li><strong className="text-slate-800">OpenCV (cv2):</strong> Applies spatial filters, CLAHE enhancement, HSV color masks, and contours.</li>
+                <li><strong className="text-slate-800">NumPy:</strong> Performs fast array operations on image pixel matrices and color channels.</li>
+                <li><strong className="text-slate-800">Pillow (PIL):</strong> Validates raw image file headers and bit depths.</li>
+              </ul>
+            </div>
+
+            {/* Database */}
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-2">
+              <span className="font-bold text-slate-900 text-sm block">Database & Storage</span>
+              <ul className="space-y-1.5 text-slate-600 text-xs">
+                <li><strong className="text-slate-800">JSON File Database:</strong> Provides persistent disk storage for detection scan records and disease encyclopedia data.</li>
+                <li><strong className="text-slate-800">Atomic Disk Writes:</strong> Ensures database records are saved safely without data corruption.</li>
+                <li><strong className="text-slate-800">Static File Storage:</strong> Organizes uploaded crop photos and processed stage images in dedicated folders.</li>
+                <li><strong className="text-slate-800">MongoDB Bridge:</strong> Fully compatible with MongoDB via environment configuration when needed.</li>
+              </ul>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* Academic Project Components (Viva Guide) */}
+        <section className="bg-emerald-50/70 rounded-3xl border border-emerald-200 p-6 sm:p-8 space-y-4">
+          <h2 className="text-lg font-bold text-emerald-950 flex items-center gap-2">
+            <Activity className="w-5 h-5 text-emerald-700" />
+            <span>Academic Demonstration Highlights</span>
+          </h2>
+          <p className="text-xs sm:text-sm text-emerald-900 leading-relaxed">
+            This project covers four core areas of computer science and agricultural informatics:
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div className="bg-white p-3.5 rounded-xl border border-emerald-200">
+              <strong className="text-emerald-950 block font-bold mb-1">1. Digital Image Processing (DIP)</strong>
+              <p className="text-slate-600">
+                Demonstrated through the 8-stage pipeline: Gaussian & Median filtering, CLAHE contrast equalization, HSV conversion, Excess Green segmentation, and contour masking.
+              </p>
+            </div>
+
+            <div className="bg-white p-3.5 rounded-xl border border-emerald-200">
+              <strong className="text-emerald-950 block font-bold mb-1">2. Feature Extraction & Classification</strong>
+              <p className="text-slate-600">
+                Demonstrated through color moment statistics (Mean, Std Dev, Skewness), GLCM texture matrices (Contrast, Homogeneity), and distance-based signature matching against verified disease profiles.
+              </p>
+            </div>
+
+            <div className="bg-white p-3.5 rounded-xl border border-emerald-200">
+              <strong className="text-emerald-950 block font-bold mb-1">3. Database Management (DBMS)</strong>
+              <p className="text-slate-600">
+                Demonstrated through persistent scan records, timestamp logging, query filtering by crop or status, record retrieval by ID, and deletion operations.
+              </p>
+            </div>
+
+            <div className="bg-white p-3.5 rounded-xl border border-emerald-200">
+              <strong className="text-emerald-950 block font-bold mb-1">4. Full-Stack Web Development</strong>
+              <p className="text-slate-600">
+                Demonstrated through a modular React single-page frontend, asynchronous REST APIs with Express.js, and inter-process communication with Python.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Execution Guide */}
+        <section className="bg-slate-900 rounded-3xl p-6 sm:p-8 text-slate-200 shadow-xl space-y-4 border border-slate-800">
+          <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+            <Terminal className="w-4 h-4" />
+            <span>Running the Project Locally</span>
+          </div>
+          <h3 className="text-lg font-bold text-white">Execution Instructions for macOS</h3>
+
+          <div className="space-y-3 font-mono text-xs">
+            <div>
+              <p className="text-slate-400 text-[11px] mb-1 font-sans">1. Start Backend API Server (Port 5001):</p>
+              <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 text-emerald-400 select-all">
+                cd Crop-Disease-Detection/backend && npm start
+              </div>
+            </div>
+
+            <div>
+              <p className="text-slate-400 text-[11px] mb-1 font-sans">2. Start Frontend Dev Server (Port 3001):</p>
+              <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 text-emerald-400 select-all">
+                cd Crop-Disease-Detection/frontend && npm run dev
+              </div>
+            </div>
+
+            <div>
+              <p className="text-slate-400 text-[11px] mb-1 font-sans">3. Open in Browser:</p>
+              <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 text-emerald-400 select-all">
+                http://localhost:3001
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* Complete Footer Component (displayed only on the About Project page) */}
+      <Footer />
     </div>
   );
 }

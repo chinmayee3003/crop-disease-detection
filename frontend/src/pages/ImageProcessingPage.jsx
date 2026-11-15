@@ -4,12 +4,14 @@ import {
   Layers,
   Sparkles,
   ScanLine,
-  Sliders,
-  Maximize2,
   FileText,
-  Activity,
   ArrowRight,
-  BookOpen,
+  CheckCircle2,
+  Cpu,
+  Eye,
+  Sliders,
+  Scissors,
+  BarChart3,
 } from 'lucide-react';
 import DIPVisualizer from '../components/DIPVisualizer';
 import { getDetectionHistory, analyzeSample } from '../api/api';
@@ -67,7 +69,7 @@ export default function ImageProcessingPage({ currentAnalysis, setCurrentAnalysi
             Image Processing Stages & Visual Comparison
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl leading-relaxed">
-            Examine step-by-step transformations computed by the OpenCV pipeline: spatial filtering, CLAHE contrast enhancement, HSV color isolation, ExG thresholding, and lesion contour extraction.
+            Examine step-by-step transformations computed by the OpenCV pipeline: noise filtering, contrast enhancement, color segmentation, and lesion extraction.
           </p>
         </div>
 
@@ -84,7 +86,7 @@ export default function ImageProcessingPage({ currentAnalysis, setCurrentAnalysi
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-emerald-700 hover:border-emerald-300 text-xs font-semibold shadow-xs transition-colors"
           >
             <FileText className="w-3.5 h-3.5" />
-            <span>Pathology Report</span>
+            <span>View Analysis Results</span>
           </Link>
         </div>
       </div>
@@ -118,79 +120,164 @@ export default function ImageProcessingPage({ currentAnalysis, setCurrentAnalysi
         </div>
       )}
 
-      {/* Deep-Dive Technical Explanation Cards */}
+      {/* DIP Algorithm Specifications Section */}
       <section className="bg-slate-50 rounded-3xl border border-slate-200/80 p-6 md:p-10 space-y-8">
         <div>
           <span className="text-xs font-bold uppercase tracking-wider text-emerald-600">
-            DIP Algorithmic Specifications
+            DIP Algorithm Specifications
           </span>
           <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight mt-1">
-            Mathematical Formulation of the 8 Stages
+            Understanding the 8-Stage Image-Processing Workflow
           </h2>
           <p className="text-xs text-slate-500 mt-1">
-            Principles of computer vision and spatial filtering applied to agricultural diagnostics.
+            A clear explanation of each step in the OpenCV pipeline, from initial upload to final disease classification.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Card 1 */}
+        {/* 8-Stage Workflow Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Stage 1 */}
           <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2">
-            <div className="flex items-center gap-2 text-xs font-bold text-emerald-800">
-              <span className="w-6 h-6 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700 text-[11px] font-bold">1</span>
-              <span>Gaussian vs. Median Noise Filtering</span>
-            </div>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Standard 2D Gaussian convolution computes weighted local neighbor averages:
-              <span className="block my-1 font-mono text-[11px] bg-slate-50 p-2 rounded border border-slate-100 text-slate-800">
-                G(x, y) = (1 / 2πσ²) * exp(-(x² + y²) / 2σ²)
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                Stage 01
               </span>
-              While effective for high-frequency white noise, it blurs critical leaf veins. The non-linear 5x5 Median filter replaces pixel values with neighborhood medians, completely removing salt-and-pepper artifacts while preserving crisp lesion boundaries.
+              <span className="text-[11px] text-slate-400 font-medium">OpenCV cv2.imread</span>
+            </div>
+            <h3 className="text-sm font-bold text-slate-900">1. Image Acquisition</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              The system accepts a crop image uploaded by the user. It verifies the image format (JPG or PNG) and checks that all color channels and pixel arrays are correctly loaded.
             </p>
+            <div className="pt-1.5 text-[11px] text-slate-500 flex items-center gap-1">
+              <span className="font-semibold text-emerald-800">Technique:</span>
+              <span>Input verification, 24-bit RGB validation, and metadata extraction.</span>
+            </div>
           </div>
 
-          {/* Card 2 */}
+          {/* Stage 2 */}
           <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2">
-            <div className="flex items-center gap-2 text-xs font-bold text-emerald-800">
-              <span className="w-6 h-6 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700 text-[11px] font-bold">2</span>
-              <span>CLAHE in CIE-LAB Color Space</span>
-            </div>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Traditional RGB histogram equalization distorts natural color fidelity. AgriVision transforms the RGB array into CIE-LAB, isolating the L* (Lightness) channel:
-              <span className="block my-1 font-mono text-[11px] bg-slate-50 p-2 rounded border border-slate-100 text-slate-800">
-                ClipLimit = 2.5, TileGridSize = (8 x 8)
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                Stage 02
               </span>
-              Adaptive equalization redistributes contrast within localized 8x8 contextual tiles, accentuating tiny necrotic lesions without overamplifying background noise.
+              <span className="text-[11px] text-slate-400 font-medium">cv2.INTER_AREA</span>
+            </div>
+            <h3 className="text-sm font-bold text-slate-900">2. Image Resizing</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              The image is resized to a standard size (512×512 pixels) for consistent processing. This ensures that calculations like spot size and leaf area remain comparable regardless of the camera used.
             </p>
+            <div className="pt-1.5 text-[11px] text-slate-500 flex items-center gap-1">
+              <span className="font-semibold text-emerald-800">Technique:</span>
+              <span>Bicubic and area interpolation for scale-consistent matrix normalization.</span>
+            </div>
           </div>
 
-          {/* Card 3 */}
+          {/* Stage 3 */}
           <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2">
-            <div className="flex items-center gap-2 text-xs font-bold text-emerald-800">
-              <span className="w-6 h-6 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700 text-[11px] font-bold">3</span>
-              <span>Excess Green (ExG) Plant Segmentation</span>
-            </div>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              To robustly isolate green foliage from background surfaces regardless of ambient illumination:
-              <span className="block my-1 font-mono text-[11px] bg-slate-50 p-2 rounded border border-slate-100 text-slate-800">
-                ExG = 2 * Green - Red - Blue
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                Stage 03
               </span>
-              Pixels with ExG &gt; 5.0 and HSV Hue in [20°, 95°] are segmented. Morphological opening with an elliptical kernel removes stray background specks, and morphological closing seals internal vein gaps.
+              <span className="text-[11px] text-slate-400 font-medium">cv2.GaussianBlur & Median</span>
+            </div>
+            <h3 className="text-sm font-bold text-slate-900">3. Noise Removal</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Gaussian and Median filters help reduce unwanted noise. A 5×5 Median filter cleans up random camera speckles while keeping leaf borders and spot edges sharp, supported by bilateral smoothing.
             </p>
+            <div className="pt-1.5 text-[11px] text-slate-500 flex items-center gap-1">
+              <span className="font-semibold text-emerald-800">Technique:</span>
+              <span>Gaussian filter (sigma=1.2) and Median filter (5×5 window) comparison.</span>
+            </div>
           </div>
 
-          {/* Card 4 */}
+          {/* Stage 4 */}
           <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2">
-            <div className="flex items-center gap-2 text-xs font-bold text-emerald-800">
-              <span className="w-6 h-6 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700 text-[11px] font-bold">4</span>
-              <span>Haralick GLCM Texture Descriptors</span>
-            </div>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              The Gray-Level Co-occurrence Matrix (GLCM) quantizes second-order spatial gray level joint distributions P(i, j):
-              <span className="block my-1 font-mono text-[11px] bg-slate-50 p-2 rounded border border-slate-100 text-slate-800">
-                Contrast = Σ |i - j|² P(i, j), Homogeneity = Σ P(i, j) / (1 + |i - j|²)
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                Stage 04
               </span>
-              Fungal blights cause jagged, irregular roughness (high Contrast, low Homogeneity), while healthy leaves feature smooth, uniform co-occurrence (Homogeneity &gt; 0.85).
+              <span className="text-[11px] text-slate-400 font-medium">cv2.createCLAHE</span>
+            </div>
+            <h3 className="text-sm font-bold text-slate-900">4. Image Enhancement</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              CLAHE (Contrast Limited Adaptive Histogram Equalization) improves image contrast so that visible details are easier to identify. It enhances the lightness channel so faint spots and early symptoms stand out clearly.
             </p>
+            <div className="pt-1.5 text-[11px] text-slate-500 flex items-center gap-1">
+              <span className="font-semibold text-emerald-800">Technique:</span>
+              <span>Adaptive histogram equalization in CIE-LAB space with unsharp masking.</span>
+            </div>
+          </div>
+
+          {/* Stage 5 */}
+          <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                Stage 05
+              </span>
+              <span className="text-[11px] text-slate-400 font-medium">COLOR_BGR2HSV</span>
+            </div>
+            <h3 className="text-sm font-bold text-slate-900">5. RGB to HSV Conversion</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              The image is converted into HSV colour format to help identify different colours in the plant. This separates lighting brightness from actual color hue, making yellowing and brown spots easy to detect.
+            </p>
+            <div className="pt-1.5 text-[11px] text-slate-500 flex items-center gap-1">
+              <span className="font-semibold text-emerald-800">Technique:</span>
+              <span>Hue-Saturation-Value cylindrical conversion to isolate chlorophyll from lesions.</span>
+            </div>
+          </div>
+
+          {/* Stage 6 */}
+          <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                Stage 06
+              </span>
+              <span className="text-[11px] text-slate-400 font-medium">ExG & Morphology</span>
+            </div>
+            <h3 className="text-sm font-bold text-slate-900">6. Image Segmentation</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Thresholding and morphological operations help separate the plant from its background and identify affected areas. The Excess Green index identifies active plant tissue while background paper or soil is filtered out.
+            </p>
+            <div className="pt-1.5 text-[11px] text-slate-500 flex items-center gap-1">
+              <span className="font-semibold text-emerald-800">Technique:</span>
+              <span>Excess Green Index (ExG = 2G - R - B) combined with morphological opening and closing.</span>
+            </div>
+          </div>
+
+          {/* Stage 7 */}
+          <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                Stage 07
+              </span>
+              <span className="text-[11px] text-slate-400 font-medium">cv2.findContours</span>
+            </div>
+            <h3 className="text-sm font-bold text-slate-900">7. Disease Region Extraction</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              The system identifies visible spots and damaged regions in the plant. It outlines affected spots with bounding boxes, marks boundaries in red, and generates a color-coded heatmap showing infection intensity.
+            </p>
+            <div className="pt-1.5 text-[11px] text-slate-500 flex items-center gap-1">
+              <span className="font-semibold text-emerald-800">Technique:</span>
+              <span>Chromatic delta masking, contour extraction, and continuous density heatmap generation.</span>
+            </div>
+          </div>
+
+          {/* Stage 8 */}
+          <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                Stage 08
+              </span>
+              <span className="text-[11px] text-slate-400 font-medium">GLCM & Feature Vector</span>
+            </div>
+            <h3 className="text-sm font-bold text-slate-900">8. Feature Extraction and Classification</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Colour, texture and shape information are extracted and compared with the existing disease profiles to produce a possible classification. The system computes the affected area percentage and provides practical advice.
+            </p>
+            <div className="pt-1.5 text-[11px] text-slate-500 flex items-center gap-1">
+              <span className="font-semibold text-emerald-800">Technique:</span>
+              <span>GLCM Haralick texture metrics (contrast, homogeneity), color moments, and distance matching.</span>
+            </div>
           </div>
         </div>
       </section>

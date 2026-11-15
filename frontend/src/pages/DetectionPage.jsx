@@ -25,14 +25,14 @@ export default function DetectionPage({ setCurrentAnalysis }) {
 
   const simulateProgressSteps = () => {
     const steps = [
-      '1/8 Optical Image Ingestion & Header Verification...',
-      '2/8 Normalizing Spatial Dimensions to 512x512...',
-      '3/8 Applying Gaussian & Median Noise Filtering...',
-      '4/8 Enhancing CLAHE Contrast in LAB Color Space...',
-      '5/8 Transforming to HSV Chromatic Cylinders...',
-      '6/8 Segmenting Plant Tissue via Excess Green Index...',
-      '7/8 Isolating Necrotic Spots & Drawing Bounding Contours...',
-      '8/8 Computing GLCM Texture & Biometric Matching...',
+      '1/8 Reading and checking the uploaded image...',
+      '2/8 Resizing image to standard 512x512 dimensions...',
+      '3/8 Removing noise with Gaussian and Median filters...',
+      '4/8 Improving contrast using CLAHE enhancement...',
+      '5/8 Converting to HSV colour format to isolate plant colours...',
+      '6/8 Separating plant from background via Excess Green index...',
+      '7/8 Locating visible spots and calculating affected areas...',
+      '8/8 Comparing features with disease profiles...',
     ];
 
     let current = 0;
@@ -134,13 +134,13 @@ export default function DetectionPage({ setCurrentAnalysis }) {
       <div>
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 mb-2">
           <ScanLine className="w-3.5 h-3.5 text-emerald-600" />
-          <span>Foliage & Root Diagnostic Portal</span>
+          <span>Foliage & Root Scanner</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
           Crop Disease Detection Scanner
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl leading-relaxed">
-          Upload leaf or root photographs in JPG or PNG format. The digital image processing engine extracts chromatic lesions, computes percentage affected area, and produces clinical pathological assessments.
+          Upload a photo of a crop leaf or root (JPG or PNG). The image-processing engine will analyze the image, detect affected areas, and provide visible symptoms and treatment suggestions.
         </p>
       </div>
 
@@ -170,7 +170,7 @@ export default function DetectionPage({ setCurrentAnalysis }) {
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-xs font-bold uppercase tracking-wider text-emerald-600">
-                  Detection Completed
+                  Analysis Completed
                 </span>
                 <DiseaseSeverityBadge
                   status={latestResult.classification?.status}
@@ -179,11 +179,15 @@ export default function DetectionPage({ setCurrentAnalysis }) {
                 />
               </div>
               <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
-                {latestResult.classification?.disease_name || latestResult.disease_detected}
+                {latestResult.classification?.status === 'Healthy'
+                  ? `${latestResult.classification?.crop || latestResult.crop_name} - Appears Healthy`
+                  : `Possible ${latestResult.classification?.disease_name || latestResult.disease_detected}`}
               </h2>
-              <p className="text-xs font-mono text-slate-500 mt-0.5">
-                Pathogen: {latestResult.classification?.pathogen || 'None (Healthy Specimen)'}
-              </p>
+              {latestResult.classification?.pathogen && latestResult.classification?.status !== 'Healthy' && (
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Pathogen: {latestResult.classification?.pathogen}
+                </p>
+              )}
             </div>
 
             <div className="flex items-center gap-3">
@@ -193,7 +197,7 @@ export default function DetectionPage({ setCurrentAnalysis }) {
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs tracking-wide shadow-md shadow-emerald-600/20 transition-all hover:scale-105 active:scale-100"
               >
                 <FileText className="w-4 h-4" />
-                <span>View Full Pathology & Treatment Report</span>
+                <span>View Full Analysis & Treatment Suggestions</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -238,21 +242,21 @@ export default function DetectionPage({ setCurrentAnalysis }) {
               </span>
             </div>
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
-              <span className="text-slate-500 block text-[11px]">Model Confidence</span>
-              <span className="text-lg font-bold text-slate-900 font-mono">
-                {latestResult.classification?.confidence}%
+              <span className="text-slate-500 block text-[11px]">Condition Status</span>
+              <span className="text-base font-bold text-slate-900">
+                {latestResult.classification?.status === 'Healthy' ? 'Healthy Plant' : 'Possible Disease'}
               </span>
             </div>
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
-              <span className="text-slate-500 block text-[11px]">Lesion Spot Count</span>
+              <span className="text-slate-500 block text-[11px]">Visible Spots Count</span>
               <span className="text-lg font-bold text-slate-900 font-mono">
                 {latestResult.features?.morphology?.lesion_count || 0} spots
               </span>
             </div>
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
-              <span className="text-slate-500 block text-[11px]">Vegetation Index (ExG)</span>
-              <span className="text-lg font-bold text-slate-900 font-mono">
-                {latestResult.features?.color_moments?.exg_index}
+              <span className="text-slate-500 block text-[11px]">Severity Level</span>
+              <span className="text-base font-bold text-slate-900">
+                {latestResult.classification?.severity_level || 'Mild'}
               </span>
             </div>
           </div>
